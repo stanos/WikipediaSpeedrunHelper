@@ -6,8 +6,15 @@
     "background": {
         "service_worker": "background.js"
       },
-      "permissions": ["storage", "activeTab", "scripting", "tabs"],
+      "permissions": ["storage", "activeTab", "scripting", "tabs", "webNavigation"],
       "action": {
         "default_popup": "popup.html"
-      }
+      },
+    "content_scripts": [
+        {
+            "matches": ["https://*.wikipedia.org/*"],
+            "js": ["content-script.js"],
+            "run_at": "document_end"
+        }
+    ]
 }
