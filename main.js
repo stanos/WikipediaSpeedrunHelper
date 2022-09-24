@@ -4,18 +4,30 @@ let hopCount = document.getElementById("hopCount");
 let startButton = document.getElementById("startButton");
 
 startButton.addEventListener("click",() => {
-    let title = getCurrentTabUrl();
-    chrome.storage.sync.set({ title });
-    startPage.innerHTML = title;
+    console.log("Clicked!");
+    chrome.storage.local.get("data", (tabTitle) => {
+        startPage.innerHTML = tabTitle.data;
+    });
     console.log("End.")
 });
 
-function getCurrentTabUrl(){
-    window.location.toString();
+document.body.onload = function(){
+    chrome.tabs.query({
+        active: true,
+        lastFocusedWindow: true
+    }, function(tabs) {
+        // and use that tab to fill in out title and url
+        var tabTitle = tabs[0];
+        chrome.storage.local.set({ "data" : tabTitle.title }, function() {
+            if (chrome.runtime.error) {
+              console.log("Runtime error.");
+            }
+          });
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    chrome.storage.sync.get("title", ({ title }) => {
-        startPage.innerHTML =  title
+    chrome.storage.local.get("data", (tabTitle) => {
+        startPage.innerHTML =  tabTitle.data;
     });
 });
