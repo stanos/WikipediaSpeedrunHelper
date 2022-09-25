@@ -20,7 +20,10 @@ startButton.addEventListener("click",() => {
 });
 
 reset.addEventListener("click",() => {
+    chrome.storage.sync.set({ "hopCount" : 0 });
+    chrome.storage.local.set({ "data" : "" });
     hopCount.innerHTML = 0;
+    startPage.innerHTML = "";
 });
 
 function setTabTitle(){
